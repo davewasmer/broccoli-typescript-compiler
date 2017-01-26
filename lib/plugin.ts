@@ -42,7 +42,7 @@ export class TypeScript extends BroccoliPlugin {
   build() {
     let token = heimdall.start("TypeScript:compile");
     let inputPath = this.inputPaths[0];
-    let { host } = this;
+    let host = this.host;
     if (!host) {
       host = this.host = new Compiler(this.outputPath, inputPath, this.config, this.configFileName);
     } else {

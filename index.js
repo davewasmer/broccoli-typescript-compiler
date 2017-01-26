@@ -1,4 +1,4 @@
-var plugin = require("./dist/plugin");
+var plugin = require("./dist/lib/plugin");
 var TypeScript = plugin.TypeScript;
 var MergeTrees = require("broccoli-merge-trees");
 var Funnel = require("broccoli-funnel");

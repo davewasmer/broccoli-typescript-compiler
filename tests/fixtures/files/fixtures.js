@@ -1,4 +1,5 @@
-import Greeter from './types';
+"use strict";
+const types_1 = require("./types");
 class Person {
     constructor(name) {
         this._name = name;
@@ -7,4 +8,5 @@ class Person {
         return this._name;
     }
 }
-document.body.innerHTML = new Greeter().greet(new Person("Godfrey"));
+document.body.innerHTML = new types_1.default().greet(new Person("Godfrey"));
+//# sourceMappingURL=fixtures.js.map
