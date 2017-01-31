@@ -1,14 +1,14 @@
-import Greeter, { Named } from './types';
+import Greeter, { Named } from "./types";
 
 class Person implements Named {
   private _name: String;
 
   constructor(name: String) {
-	  this._name = name;
+    this._name = name;
   }
 
   name() {
-	  return this._name;
+    return this._name;
   }
 }
 
