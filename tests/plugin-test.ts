@@ -9,7 +9,7 @@ import * as rimraf from "rimraf";
 
 import filter = require("../index");
 
-describe("transpile TypeScript", () => {
+describe("transpile TypeScript", function () {
   this.timeout(10000);
 
   let INPUT_PATH = path.join(os.tmpdir(), "broccoli-typescript-compiler-test");
@@ -33,7 +33,7 @@ describe("transpile TypeScript", () => {
       return builder.build().then(() => {
         let actual = fixturify.readSync(builder.outputPath);
         expect(actual).to.deep.equal({
-          "fixtures.js": "import Greeter from './types';\nclass Person {\n    constructor(name) {\n        this._name = name;\n    }\n    name() {\n        return this._name;\n    }\n}\ndocument.body.innerHTML = new Greeter().greet(new Person(\"Godfrey\"));\n",
+          "fixtures.js": "import Greeter from \"./types\";\nclass Person {\n    constructor(name) {\n        this._name = name;\n    }\n    name() {\n        return this._name;\n    }\n}\ndocument.body.innerHTML = new Greeter().greet(new Person(\"Godfrey\"));\n",
           "orange.js": "var orange : String;",
           "types.js": "export default class Greeter {\n    greet(thing) {\n        return \"<h1>Hello, \" + thing.name() + \"</h1>\";\n    }\n}\n;\n;\n"
         });
@@ -57,7 +57,7 @@ describe("transpile TypeScript", () => {
       return builder.build().then(() => {
         let actual = fixturify.readSync(builder.outputPath);
         expect(actual).to.deep.equal({
-          "fixtures.js": "import Greeter from './types';\nclass Person {\n    constructor(name) {\n        this._name = name;\n    }\n    name() {\n        return this._name;\n    }\n}\ndocument.body.innerHTML = new Greeter().greet(new Person(\"Godfrey\"));\n",
+          "fixtures.js": "import Greeter from \"./types\";\nclass Person {\n    constructor(name) {\n        this._name = name;\n    }\n    name() {\n        return this._name;\n    }\n}\ndocument.body.innerHTML = new Greeter().greet(new Person(\"Godfrey\"));\n",
           "orange.js": "var orange : String;",
           "types.js": "export default class Greeter {\n    greet(thing) {\n        return \"<h1>Hello, \" + thing.name() + \"</h1>\";\n    }\n}\n;\n;\n"
         });
