@@ -6,6 +6,7 @@ import * as fixturify from "fixturify";
 import * as os from "os";
 import * as mkdirp from "mkdirp";
 import * as rimraf from "rimraf";
+import * as Funnel from "broccoli-funnel";
 
 import filter = require("../index");
 
@@ -24,27 +25,26 @@ describe("transpile TypeScript", function () {
 
   describe("tsconfig", () => {
     it("uses tsconfig path from options", function () {
-      fixturify.writeSync(INPUT_PATH, fixturify.readSync("tests/fixtures/files"));
-
-      let builder = new Builder(filter(INPUT_PATH, {
-        tsconfig: "tests/fixtures/tsconfig.json"
-      }));
-
-      return builder.build().then(() => {
-        let actual = fixturify.readSync(builder.outputPath);
-        expect(actual).to.deep.equal({
-          "fixtures.js": "import Greeter from \"./types\";\nclass Person {\n    constructor(name) {\n        this._name = name;\n    }\n    name() {\n        return this._name;\n    }\n}\ndocument.body.innerHTML = new Greeter().greet(new Person(\"Godfrey\"));\n",
-          "orange.js": "var orange : String;",
-          "types.js": "export default class Greeter {\n    greet(thing) {\n        return \"<h1>Hello, \" + thing.name() + \"</h1>\";\n    }\n}\n;\n;\n"
-        });
-      }).finally(() => {
-        builder.cleanup();
+      fixturify.writeSync(INPUT_PATH, fixturify.readSync("tests/cases/basic"));
+      let inputNode = new Funnel(path.join(INPUT_PATH, "lib"), {
+        destDir: "lib"
       });
+      let builder = new Builder(filter(inputNode, {
+        tsconfig: "tests/cases/basic/tsconfig.json"
+      }));
+      return builder.build().then(() => {
+        let expected = fixturify.readSync("tests/expectations/basic");
+        let actual = fixturify.readSync(builder.outputPath);
+        expect(actual).to.deep.equal(expected);
+      }).finally(() => builder.cleanup());
     });
 
     it("uses tsconfig json from options", () => {
-      fixturify.writeSync(INPUT_PATH, fixturify.readSync("tests/fixtures/files"));
-      let builder = new Builder(filter(INPUT_PATH, {
+      fixturify.writeSync(INPUT_PATH, fixturify.readSync("tests/cases/basic"));
+      let inputNode = new Funnel(path.join(INPUT_PATH, "lib"), {
+        destDir: "lib"
+      });
+      let builder = new Builder(filter(inputNode, {
         tsconfig: {
           "compilerOptions": {
             "target": "es2015",
@@ -55,39 +55,11 @@ describe("transpile TypeScript", function () {
         }
       }));
       return builder.build().then(() => {
+        let expected = fixturify.readSync("tests/expectations/basic");
         let actual = fixturify.readSync(builder.outputPath);
-        expect(actual).to.deep.equal({
-          "fixtures.js": "import Greeter from \"./types\";\nclass Person {\n    constructor(name) {\n        this._name = name;\n    }\n    name() {\n        return this._name;\n    }\n}\ndocument.body.innerHTML = new Greeter().greet(new Person(\"Godfrey\"));\n",
-          "orange.js": "var orange : String;",
-          "types.js": "export default class Greeter {\n    greet(thing) {\n        return \"<h1>Hello, \" + thing.name() + \"</h1>\";\n    }\n}\n;\n;\n"
-        });
-      }).finally(() => {
-        builder.cleanup();
-      });
+        expect(actual).to.deep.equal(expected);
+      }).finally(() => builder.cleanup());
     });
-
-    // describe('tsconfig resolution', function() {
-    //   it('basic resolution', function () {
-    //     // since this uses the project tsconfig I need these in lib
-    //     var Funnel = require('broccoli-funnel');
-    //     var input = new Funnel(INPUT_PATH, {
-    //       destDir: 'lib'
-    //     });
-    //     builder = new broccoli.Builder(filter(input));
-
-    //     return builder.build().then(function(results) {
-    //       var outputPath = results.directory;
-
-    //       var actualJS = fs.readFileSync(outputPath + '/dist/fixtures.js').toString();
-    //       // var actualMap = fs.readFileSync(outputPath + '/dist/fixtures.js.map').toString();
-    //       var expectedJS = fs.readFileSync(expectations + '/expected.js').toString();
-    //       // var expectedMap = fs.readFileSync(expectations + '/expected.js.map').toString();
-
-    //       expect(actualJS).to.eql(expectedJS);
-    //       // expect(actualMap).to.eql(expectedMap);
-    //     });
-    //   });
-    // });
   });
 
   // describe('rebuilds', function() {

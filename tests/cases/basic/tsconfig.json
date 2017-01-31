@@ -4,5 +4,8 @@
     "module": "es2015",
     "sourceMap": false,
     "newLine": "LF"
-  }
+  },
+  "files": [
+    "lib/index.ts"
+  ]
 }

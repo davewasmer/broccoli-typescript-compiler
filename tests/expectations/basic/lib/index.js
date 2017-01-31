@@ -1,4 +1,4 @@
-import Greeter from './types';
+import Greeter from "./types";
 class Person {
     constructor(name) {
         this._name = name;
