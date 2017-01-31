@@ -2,8 +2,8 @@
   "name": "broccoli-typescript-compiler",
   "version": "1.0.1",
   "description": "A Broccoli plugin which compiles TypeScript files.",
-  "main": "index.js",
-  "typings": "index.d.ts",
+  "main": "dist/lib/index.js",
+  "typings": "dist/lib/index.d.ts",
   "scripts": {
     "test": "mocha dist/tests",
     "test:debug": "mocha --no-timeouts debug dist/tests",
@@ -11,9 +11,8 @@
     "build": "tsc"
   },
   "files": [
-    "dist/*",
-    "index.js",
-    "index.d.ts"
+    "dist",
+    "!dist/tests"
   ],
   "repository": {
     "type": "git",

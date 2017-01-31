@@ -1,13 +1,13 @@
 import "mocha";
 import { expect } from "chai";
-import * as broccoli from "broccoli";
+import { Builder } from "broccoli";
 import * as path from "path";
 import * as fixturify from "fixturify";
 import * as os from "os";
 import * as mkdirp from "mkdirp";
 import * as rimraf from "rimraf";
 
-import filter = require("../lib/index");
+import filter = require("../index");
 
 describe("transpile TypeScript", function() {
   this.timeout(10000);
@@ -25,7 +25,7 @@ describe("transpile TypeScript", function() {
 
   describe("tsconfig", function() {
     it("uses tsconfig path from options", function () {
-      let builder = new broccoli.Builder(filter(INPUT_PATH, {
+      let builder = new Builder(filter(INPUT_PATH, {
         tsconfig: "tests/fixtures/tsconfig.json"
       }));
 
@@ -42,7 +42,7 @@ describe("transpile TypeScript", function() {
     });
 
     it("uses tsconfig json from options", () => {
-      let builder = new broccoli.Builder(filter(INPUT_PATH, {
+      let builder = new Builder(filter(INPUT_PATH, {
         tsconfig: {
           "compilerOptions": {
             "target": "es2015",

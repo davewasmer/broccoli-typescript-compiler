@@ -9,10 +9,10 @@
     "newLine": "LF",
     "outDir": "dist",
     "sourceMap": true,
-    "declaration": true,
-    "listFiles": true
+    "declaration": true
   },
   "include": [
+    "index.ts",
     "lib/**/*.ts",
     "tests/**/*.ts"
   ],
