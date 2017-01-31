@@ -9,22 +9,23 @@ import * as rimraf from "rimraf";
 
 import filter = require("../index");
 
-describe("transpile TypeScript", function() {
+describe("transpile TypeScript", () => {
   this.timeout(10000);
 
   let INPUT_PATH = path.join(os.tmpdir(), "broccoli-typescript-compiler-test");
 
   beforeEach(done => {
     mkdirp(INPUT_PATH, done);
-    fixturify.writeSync(INPUT_PATH, fixturify.readSync("tests/fixtures/files"));
   });
 
   afterEach(done => {
     rimraf(INPUT_PATH, done);
   });
 
-  describe("tsconfig", function() {
+  describe("tsconfig", () => {
     it("uses tsconfig path from options", function () {
+      fixturify.writeSync(INPUT_PATH, fixturify.readSync("tests/fixtures/files"));
+
       let builder = new Builder(filter(INPUT_PATH, {
         tsconfig: "tests/fixtures/tsconfig.json"
       }));
@@ -42,6 +43,7 @@ describe("transpile TypeScript", function() {
     });
 
     it("uses tsconfig json from options", () => {
+      fixturify.writeSync(INPUT_PATH, fixturify.readSync("tests/fixtures/files"));
       let builder = new Builder(filter(INPUT_PATH, {
         tsconfig: {
           "compilerOptions": {
